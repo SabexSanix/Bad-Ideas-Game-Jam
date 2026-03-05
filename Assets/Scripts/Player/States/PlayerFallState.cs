@@ -14,7 +14,7 @@ public class PlayerFallState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        Move(stateManager.PlayerData.Speed, stateManager.PlayerData.Acceleration, stateManager.PlayerData.Deceleration);
+        Move(stateManager.PlayerData.WalkData.Speed, stateManager.PlayerData.WalkData.Acceleration, stateManager.PlayerData.WalkData.Deceleration);
     }
     public override void ExitState()
     {
@@ -22,16 +22,22 @@ public class PlayerFallState : PlayerBaseState
     }
     public override PlayerStateManager.PlayerState GetNextState()
     {
-        if (UserInput.WasLeapHoldPressed && stateManager.CanLeap)
+        if (stateManager.IsGrounded)
         {
-            return PlayerStateManager.PlayerState.Leap;
-        }
-
-        if (stateManager.IsGrounded) return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Run;
+            if (UserInput.WasLeapHoldReleased && stateManager.CanLeap)
+            {
+                return PlayerStateManager.PlayerState.Leap;
+            }
+            return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Walk;
+        } 
 
         if(stateManager.LastGrounded > 0f)
         {
-            return UserInput.MoveVector.x == 0 ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Run;
+            if (UserInput.WasLeapHoldReleased && stateManager.CanLeap)
+            {
+                return PlayerStateManager.PlayerState.Leap;
+            }
+            return UserInput.MoveVector.x == 0 ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Walk;
         }
         if(stateManager.LastJumpPressed > 0f && stateManager.RemainingJumps > 0)
         {

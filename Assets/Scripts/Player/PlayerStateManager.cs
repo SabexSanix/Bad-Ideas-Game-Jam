@@ -91,6 +91,7 @@ public class PlayerStateManager : StateManager<PlayerStateManager.PlayerState>
         if (CurrentState.StateKey != PlayerState.Leap)
         {
             Gravity();
+            ApplyFriction();
         }
         JumpHangCounter = Mathf.Max(0f, JumpHangCounter - Time.fixedDeltaTime);
         base.FixedUpdate();
@@ -148,6 +149,16 @@ public class PlayerStateManager : StateManager<PlayerStateManager.PlayerState>
             {
                 rb.gravityScale = playerData.GravityScale;
             }
+    }
+    void ApplyFriction()
+    {
+        if(Mathf.Abs(UserInput.MoveVector.x) < 0.01f) //If we are trying to stop
+        {
+            //Get friction amount
+            float amount = Mathf.Min(Mathf.Abs(rb.linearVelocityX), Mathf.Abs(playerData.FrictionAmount));
+            amount *= Mathf.Sign(rb.linearVelocityX); //align the direction
+            rb.AddForce(Vector2.right * -amount, ForceMode2D.Impulse); //Apply it in opposite direction
+        }
     }
     private void OnDrawGizmos()
     {

@@ -40,9 +40,9 @@ public class UserInput : MonoBehaviour
         WasJumpReleased = PlayerInput.Player.Jump.WasReleasedThisFrame();
         WasRunPressed = PlayerInput.Player.Run.WasPressedThisFrame();
         IsRunBeingPressed = PlayerInput.Player.Run.IsPressed();
-        WasLeapHoldPressed = PlayerInput.Player.Leap.WasPressedThisFrame();
-        IsLeapHoldBeingPressed = PlayerInput.Player.Leap.IsPressed();
-        WasLeapHoldReleased = PlayerInput.Player.Leap.WasReleasedThisFrame();
+        WasLeapHoldPressed = PlayerInput.Player.Leap.WasPerformedThisFrame();
+        IsLeapHoldBeingPressed = PlayerInput.Player.Leap.IsInProgress();
+        WasLeapHoldReleased = PlayerInput.Player.Leap.WasCompletedThisFrame();
         WasCrawlPressed = PlayerInput.Player.Crawl.WasPressedThisFrame();
         IsCrawlBeingPressed = PlayerInput.Player.Crawl.IsPressed();
         WasAttackPressed = PlayerInput.Player.Attack.WasPressedThisFrame();

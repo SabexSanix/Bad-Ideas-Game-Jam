@@ -15,16 +15,11 @@ public class PlayerCrawlState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        Move(stateManager.PlayerData.Speed, stateManager.PlayerData.Acceleration, stateManager.PlayerData.Deceleration);
+        Move(stateManager.PlayerData.CrawlData.Speed, stateManager.PlayerData.CrawlData.Acceleration, stateManager.PlayerData.CrawlData.Deceleration);
     }
 
     public override PlayerStateManager.PlayerState GetNextState()
     {
-        if (UserInput.WasLeapHoldPressed && stateManager.CanLeap)
-        {
-            return PlayerStateManager.PlayerState.Leap;
-        }
-
         if (stateManager.LastJumpPressed > 0f)
         {
             return PlayerStateManager.PlayerState.Jump;
@@ -35,7 +30,12 @@ public class PlayerCrawlState : PlayerBaseState
         }
         else
         {
-            return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Run;
+            if (UserInput.WasLeapHoldReleased && stateManager.CanLeap)
+            {
+                return PlayerStateManager.PlayerState.Leap;
+            }
+
+            return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Walk;
         }
     }
 }

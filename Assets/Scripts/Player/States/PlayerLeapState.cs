@@ -17,14 +17,14 @@ public class PlayerLeapState : PlayerBaseState
         stateManager.CanLeap = false;
         stateManager.IsLeaping = true;
 
-        float gravityScale = stateManager.RB.gravityScale;
-        stateManager.RB.gravityScale = 0.0f; 
-        Vector2 velocity = new(stateManager.transform.right.x * stateManager.PlayerData.LeapForce, 0.0f); 
+        // float gravityScale = stateManager.RB.gravityScale;
+        // stateManager.RB.gravityScale = 0.0f; 
+        Vector2 velocity = new Vector2(stateManager.PlayerData.LeapForce.x * stateManager.transform.right.x, stateManager.PlayerData.LeapForce.y);
         stateManager.RB.linearVelocity = velocity;
 
         yield return new WaitForSeconds(stateManager.PlayerData.LeapTime); 
 
-        stateManager.RB.gravityScale = gravityScale;
+        // stateManager.RB.gravityScale = gravityScale;
         stateManager.IsLeaping = false;
         yield return new WaitForSeconds(stateManager.PlayerData.DashCoolDown); //Reset CanLeap after cooldown
         stateManager.CanLeap = true;
@@ -41,7 +41,7 @@ public class PlayerLeapState : PlayerBaseState
             }
             else
             {
-                return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Run;
+                return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Walk;
             }
         }
         else

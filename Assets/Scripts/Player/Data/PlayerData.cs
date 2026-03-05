@@ -11,11 +11,12 @@ public class PlayerData : ScriptableObject
 
     [Space(5f)]
 
-    [Header("Run")]
+    [Header("Movement")]
     [Space(5f)]
-    public float Speed = 5f;
-    public float Acceleration = 4.5f;
-    public float Deceleration = 4f;
+    public MovementData CrawlData = new(3f, 3f, 3f);
+    public MovementData WalkData = new(7f, 6.9f, 6.9f);
+    public MovementData RunData = new(9f, 8.4f, 8.7f);
+    public float FrictionAmount = 0.2f;
 
     [Header("Jump Assists")]
     [Space(5f)]
@@ -26,7 +27,7 @@ public class PlayerData : ScriptableObject
 
     [Header("Jump")]
     [Space(5f)]
-    public float JumpForce = 7f;
+    public float JumpForce = 14f;
     public float JumpCutGravityMultiplier = 3f; //If jump released early, gravity increases, shortening the jump
 
     [Header("Double Jump")]
@@ -37,9 +38,23 @@ public class PlayerData : ScriptableObject
 
     [Header("Dash")]
     [Space(5f)]
-    public float LeapForce = 25f;
-    public float LeapTime = 0.1f;
+    public Vector2 LeapForce = new Vector2(20f, 7f);
+    public float LeapTime = 0.2f;
     public float DashCoolDown = 0.75f;
 
 }
  
+[System.Serializable]
+public class MovementData
+{
+    public float Speed;
+    public float Acceleration;
+    public float Deceleration;
+
+    public MovementData(float speed, float acceleration, float deceleration)
+    {
+        Speed = speed;
+        Acceleration = acceleration;
+        Deceleration = deceleration;
+    }    
+}

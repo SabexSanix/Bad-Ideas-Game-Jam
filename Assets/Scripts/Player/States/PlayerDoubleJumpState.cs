@@ -17,7 +17,7 @@ public class PlayerDoubleJumpState : PlayerBaseState
     }
     public override void FixedUpdateState()
     {
-        Move(stateManager.PlayerData.Speed, stateManager.PlayerData.Acceleration, stateManager.PlayerData.Deceleration);
+        Move(stateManager.PlayerData.WalkData.Speed, stateManager.PlayerData.WalkData.Acceleration, stateManager.PlayerData.WalkData.Deceleration);
     }
     public override void ExitState()
     {
@@ -26,16 +26,18 @@ public class PlayerDoubleJumpState : PlayerBaseState
 
     public override PlayerStateManager.PlayerState GetNextState()
     {
-        if (UserInput.WasLeapHoldPressed && stateManager.CanLeap)
-        {
-            return PlayerStateManager.PlayerState.Leap;
-        }
-        
         if (stateManager.RB.linearVelocityY <= 0f)
         {
             return PlayerStateManager.PlayerState.Fall;
         }
-        if (stateManager.IsGrounded) return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Run; //Might Remove (Edge Case)
+        if (stateManager.IsGrounded)
+        {
+            if (UserInput.WasLeapHoldReleased && stateManager.CanLeap)
+            {
+                return PlayerStateManager.PlayerState.Leap;
+            }
+            return UserInput.MoveVector.x == 0f ? PlayerStateManager.PlayerState.Idle : PlayerStateManager.PlayerState.Walk; //Might Remove (Edge Case)
+        }
 
         return StateKey;
     }
