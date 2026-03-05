@@ -15,17 +15,27 @@ MonoBehaviour:
   MaxFallSpeed: 17
   GravityScale: 1
   FallGravityMultiplier: 1.9
-  Speed: 5
-  Acceleration: 4.75
-  Deceleration: 4.75
+  CrawlData:
+    Speed: 3
+    Acceleration: 3
+    Deceleration: 3
+  WalkData:
+    Speed: 7
+    Acceleration: 6.9
+    Deceleration: 6.9
+  RunData:
+    Speed: 9
+    Acceleration: 8.4
+    Deceleration: 8.7
+  FrictionAmount: 0.2
   LastGroundedTime: 0.125
   LastJumpPressedTime: 0.1
   JumpHangTime: 0.1
   JumpReleasedBufferTime: 0.1
-  JumpForce: 12
+  JumpForce: 14
   JumpCutGravityMultiplier: 6
   ExtraJumpAmount: 1
   DoubleJumpMultiplier: 1
-  LeapForce: 25
-  LeapTime: 0.1
+  LeapForce: {x: 17.5, y: 8}
+  LeapTime: 0.35
   DashCoolDown: 0.75
