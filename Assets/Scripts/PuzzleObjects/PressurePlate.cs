@@ -9,6 +9,7 @@ public class PressurePlate : MonoBehaviour
     private Object holding;
     [SerializeField]
     private float returnSpeed;
+    [SerializeField]
     private int touching;
     Rigidbody2D rb;
 
@@ -32,24 +33,27 @@ public class PressurePlate : MonoBehaviour
     {
         if (touching == 0)
         {
-            rb.simulated = false;
-            if(transform.position.y>ogPosition.y)
+            rb.bodyType = RigidbodyType2D.Kinematic;
+            if (rb.position.y > ogPosition.y)
             {
-    
-                transform.position = new Vector2(ogPosition.x,transform.position.y-(returnSpeed*Time.deltaTime));
+                rb.position = ogPosition;
+                Debug.Log("Zu weit oben");
             }
-            else if(transform.position.y<=ogPosition.y-0.1f)
+            else if (rb.position.y < ogPosition.y)
             {
-                transform.position = new Vector2(ogPosition.x, transform.position.y + (returnSpeed * Time.deltaTime));
+                rb.position = ogPosition;
+                Debug.Log("Zu weít unten");
             }
         }
         else
         {
-            rb.simulated = true;
+
+            rb.bodyType = RigidbodyType2D.Dynamic;
+            Debug.Log("Dynamic");
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject!=holding)
         {
