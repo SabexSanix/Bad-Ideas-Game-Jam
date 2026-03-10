@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
+    private bool isPressed{get; set;}
     [SerializeField]
     private Vector2 ogPosition;
     [SerializeField]
@@ -41,15 +42,16 @@ public class PressurePlate : MonoBehaviour
             }
             else if (rb.position.y < ogPosition.y)
             {
-                rb.position = ogPosition;
-                Debug.Log("Zu weít unten");
+                rb.MovePosition(rb.position + new Vector2(0, returnSpeed * Time.fixedDeltaTime));
+                Debug.Log("Zu weit unten");
             }
+            isPressed = false;
         }
         else
         {
 
             rb.bodyType = RigidbodyType2D.Dynamic;
-            Debug.Log("Dynamic");
+            isPressed = true;
         }
     }
 
