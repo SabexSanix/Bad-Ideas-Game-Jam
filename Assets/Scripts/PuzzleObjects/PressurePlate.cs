@@ -38,12 +38,10 @@ public class PressurePlate : MonoBehaviour
             if (rb.position.y > ogPosition.y)
             {
                 rb.position = ogPosition;
-                Debug.Log("Zu weit oben");
             }
             else if (rb.position.y < ogPosition.y)
             {
                 rb.MovePosition(rb.position + new Vector2(0, returnSpeed * Time.fixedDeltaTime));
-                Debug.Log("Zu weit unten");
             }
             isPressed = false;
         }
